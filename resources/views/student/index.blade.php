@@ -4,33 +4,43 @@
 
 <div class="md-card">
     <div class="md-card-content">
-        <h3 class="heading_a">Add New Studetn</h3>
-        <div class="uk-grid" >
-            <form class="uk-form">
-                <div class="uk-width-1-1">
-                    <div class="uk-form-row">
-                        <label for="{{ __('name') }}">{{ __('name') }}</label>
-                        <input type="text" class="md-input-dan">
-                    </div>
-                    <div class="uk-form-row">
-                        <label for="">{{ __('Student No') }}</label>
-                        <input type="number" class="md-input">
-                    </div>
-                    <div class="uk-form-row">
-                        <label for="">{{ __('Date_of_Birth') }}</label>
-                        <input id="kUI_datepicker_a" value="10-06-2015" />
+        <h3 class="heading_a">{{ __('students') }}</h3>
+            <div class="uk-overflow-container">
+            <table  class="uk-table uk-text-nowrap uk-table-striped" id="students_table">
+                <thead>
+                    <tr>
+                        <th>{{ __('name') }}</th>
+                        <th>{{ __('student_no') }}</th>
+                        <th>{{ __('class') }}</th>
+                        <th>{{ __('date_of_birth') }}</th>
+                        <th>{{ __('edit') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                    </div>
-
-                </div>
-
-
-            </form>
+                </tbody>
+            </table>
         </div>
-    </div>
 </div>
 
-
-
-
 @endsection
+
+@push('scripts')
+<script>
+    $(function(){
+        $('#students_table').DataTable({
+            processing:true,
+            serverSide:true,
+            ajax:"{!! route('student.getStudents') !!}",
+            columns:[
+                {data:'name',name:'name'},
+                {data:'student_no',name:'student_no'},
+                {data:'class',name:'class'},
+                {data:'date_of_birth',name:'date_of_birth'},
+                {data: 'edit', name: 'edit', orderable: false, searchable: false},
+            ]
+        });
+
+    });
+</script>
+@endpush

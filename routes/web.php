@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('student', 'StudentController');
+Route::get('/studnt/get-students','StudentController@getStudents')->name('student.getStudents');
 
 Route::get('index',function(){
     return view ('index');

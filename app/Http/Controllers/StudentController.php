@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStudentPost;
 use App\Student;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+
 
 class StudentController extends Controller
 {
@@ -16,7 +18,6 @@ class StudentController extends Controller
     public function index()
     {
         //
-        return Student::all();
         return view('student.index');
     }
 
@@ -28,7 +29,22 @@ class StudentController extends Controller
     public function create()
     {
         //
+
         return view('student.create');
+    }
+
+    public function getStudents()
+    {
+        return Datatables::of(Student::query())
+            ->addColumn('edit', function ($row) {
+
+                $btn = '<a href="'.route('student.edit',$row->id).'"><i class="md-icon material-icons">&#xE254;</i></a>';
+
+                return $btn;
+            })
+            ->addColumn('Delete',function($row){ return  ' <a href="'. route('student.destroy',$row->id).'"  class="btn btn-danger" >Delete</a>'; })
+            ->rawColumns(['Delete','edit'])
+            ->make(true);
     }
 
     /**
@@ -40,12 +56,11 @@ class StudentController extends Controller
     public function store(StoreStudentPost $request)
     {
         //
-      //  $request->input('date_of_birth') =  date('Y-m-d H:i:s');
-      
+        //  $request->input('date_of_birth') =  date('Y-m-d H:i:s');
+
         Student::create($request->input());
 
         return redirect()->route('student.index');
-
     }
 
     /**
@@ -57,7 +72,7 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         //
-        return view('student.edit');
+        return view('student.show');
     }
 
     /**
@@ -69,6 +84,7 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         //
+        return view('student.edit',compact('student'));
     }
 
     /**
@@ -78,9 +94,12 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(StoreStudentPost $request, Student $student)
     {
         //
+        $student->fill($request->input());
+        $student->save();
+        return redirect()->route('student.index');
     }
 
     /**
@@ -92,5 +111,7 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         //
+        $student->delete();
+        return redirect()->route('student.index');
     }
 }
