@@ -11,7 +11,7 @@ class Grade extends Model
     use SoftDeletes;
     protected $fillable=['name','sn'];
 
-    public function grades()
+    public function classrooms()
     {
         return $this->hasMany(Classroom::class);
     }

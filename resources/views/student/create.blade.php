@@ -17,14 +17,20 @@
                     <input type="number" class="md-input" name="student_no">
                 </div>
                 <div class="uk-form-row">
-                    <label for="">{{ __('class') }}</label>
-                    <select name="class" id="" data-md-selectize>
+                    <label for="">{{ __('grade') }}</label>
+                    <select name="grade_id" id="grade_id" data-md-selectize>
                         <option value="">{{ __('select') }}</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                        @foreach ($grades as $grade)
+                            <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                        @endforeach
                     </select>
                 </div>
+                <div class="uk-form-row">
+                    <label for="">{{ __('classroom') }}</label>
+                    <select name="classroom_id" id="classroom_id" >
+                    </select>
+                </div>
+
                 <div class="uk-form-row uk-input-group">
                     <span class="uk-input-group-addon"><i class="uk-input-group-icon uk-icon-calendar"> </i></span>
                     <label for="">{{ __('date_of_birth') }}</label>
@@ -44,18 +50,32 @@
     </div>
 </div>
 
-
-
-
-
 @endsection
 
 
 @push('scripts')
 <script>
         $(document).ready(function() {
-            // create DatePicker from input HTML element
-            $("#datepicker").kendoDatePicker();
+            $('#grade_id').change(function(e){
+                var selected_grade_id=$(this).children("option:selected").val();
+
+                console.log("selected grde:" + selected_grade_id);
+                $.ajax({
+                    url:'/grade/'+ selected_grade_id +'/classrooms',
+                    success:function(result){
+                        console.log(result);
+                        var classrooms_option="";
+                        result.forEach(item => {
+                            classrooms_option += ("<option value='"+ item.id+"'>"+item.name+"</option>");
+                        });
+
+                       $("#classroom_id").html(classrooms_option);
+
+                    }
+
+                });
+
+            });
         });
     </script>
 

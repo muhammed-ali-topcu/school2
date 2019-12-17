@@ -21,6 +21,20 @@ class StudentController extends Controller
         return view('student.index');
     }
 
+    public function getStudents()
+    {
+        return Datatables::of(Student::query())
+            ->addColumn('edit', function ($row) {
+                $btn = '<a href="'.route('student.edit',$row->id).'"><i class="md-icon material-icons">&#xE254;</i></a>';
+                return $btn;
+            })
+            ->addColumn('Delete',function($row){ return  ' <a href="'. route('student.destroy',$row->id).'"  class="btn btn-danger" >Delete</a>'; })
+            ->addColumn('grade',function($row){ return $row->classroom->grade->sn  ; })
+            ->addColumn('classroom',function($row){     return $row->classroom->name;})
+            ->rawColumns(['Delete','edit','grade','classroom'])
+            ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,23 +43,13 @@ class StudentController extends Controller
     public function create()
     {
         //
+        $grades= auth()->user()->school->grades;
+        $classrooms=[];
 
-        return view('student.create');
+        return view('student.create',compact('grades','classrooms'));
     }
 
-    public function getStudents()
-    {
-        return Datatables::of(Student::query())
-            ->addColumn('edit', function ($row) {
 
-                $btn = '<a href="'.route('student.edit',$row->id).'"><i class="md-icon material-icons">&#xE254;</i></a>';
-
-                return $btn;
-            })
-            ->addColumn('Delete',function($row){ return  ' <a href="'. route('student.destroy',$row->id).'"  class="btn btn-danger" >Delete</a>'; })
-            ->rawColumns(['Delete','edit'])
-            ->make(true);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -84,7 +88,9 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         //
-        return view('student.edit',compact('student'));
+        $grades= auth()->user()->school->grades;
+        $classrooms=[];
+        return view('student.edit',compact('student','grades'));
     }
 
     /**
@@ -114,4 +120,6 @@ class StudentController extends Controller
         $student->delete();
         return redirect()->route('student.index');
     }
+
+
 }

@@ -89,4 +89,11 @@ class GradeController extends Controller
     {
         //
     }
+    public function getClassrooms($grade_id)
+    {
+        $grade = Grade::find($grade_id);
+        $grades = [];
+        $grades= $grade->classrooms;
+        return $grades;
+    }
 }

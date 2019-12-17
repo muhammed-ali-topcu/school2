@@ -15,11 +15,10 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('schools');
             $table->string('name');
             $table->string('student_no');
-            $table->string('class');
+            $table->unsignedBigInteger('classroom_id');
+            $table->foreign('classroom_id')->references('id')->on('classrooms');
             $table->date('date_of_birth');
             $table->text('notes')->nullable();
             $table->boolean('archived')->default(false);

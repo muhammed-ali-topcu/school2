@@ -38,13 +38,17 @@
                     <input type="number" class="md-input" name="student_no" value="{{ old('student_no')?? $student->student_no }}">
                 </div>
                 <div class="uk-form-row">
-                    <label for="">{{ __('class') }}</label>
-                    <select name="class" id="" data-md-selectize>
-                        <option value="">{{ __('select') }}</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option ></option>
+                    <label for="">{{ __('grade') }}</label>
+                    <select name="grade_id" id="grade_id" data-md-selectize>
+                        @foreach ($grades as $item)
+                            <option  {{ $student->classroom->grade_id==$item->id ? 'selected': ''}}  value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="uk-form-row">
+                    <label for="">{{ __('classroom') }}</label>
+                    <select name="classroom_id" id="classroom_id" >
+                        <option selected value="{{ $student->classroom_id }}">{{ $student->classroom->name }}</option>
                     </select>
                 </div>
                 <div class="uk-form-row uk-input-group">
@@ -72,9 +76,6 @@
 </div>
 
 
-
-
-
 @endsection
 
 
@@ -85,7 +86,24 @@
         });
         $('#btn-delete').click(function(){
             $('#form-delete').submit();
-        })
+        });
+        $('#grade_id').change(function(e){
+                var selected_grade_id=$(this).children("option:selected").val();
+
+                console.log("selected grde:" + selected_grade_id);
+                $.ajax({
+                    url:'/grade/'+ selected_grade_id +'/classrooms',
+                    success:function(result){
+                        console.log(result);
+                        var classrooms_option="";
+                        result.forEach(item => {
+                            classrooms_option += ("<option value='"+ item.id+"'>"+item.name+"</option>");
+                        });
+
+                       $("#classroom_id").html(classrooms_option);
+                    }
+                });
+            });
     </script>
 
 @endpush

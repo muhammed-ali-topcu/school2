@@ -26,7 +26,7 @@ class StoreStudentPost extends FormRequest
         return [
             //
             'name'=>'required',
-            'class'=>'required',
+            'classroom_id'=>'required',
             'student_no'=>'required',
           'date_of_birth'=>'required',
         ];

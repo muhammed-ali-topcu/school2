@@ -17,6 +17,7 @@ class ClassroomController extends Controller
     {
         //
         $school=auth()->user()->school;
+        
     }
 
     /**

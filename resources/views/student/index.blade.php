@@ -11,7 +11,8 @@
                     <tr>
                         <th>{{ __('name') }}</th>
                         <th>{{ __('student_no') }}</th>
-                        <th>{{ __('class') }}</th>
+                        <th>{{ __('grade') }}</th>
+                        <th>{{ __('classroom') }}</th>
                         <th>{{ __('date_of_birth') }}</th>
                         <th>{{ __('edit') }}</th>
                     </tr>
@@ -35,7 +36,8 @@
             columns:[
                 {data:'name',name:'name'},
                 {data:'student_no',name:'student_no'},
-                {data:'class',name:'class'},
+                {data:'grade',name:'grade',orderable:true, searchable:true},
+                {data:'classroom',name:'classroom' },
                 {data:'date_of_birth',name:'date_of_birth'},
                 {data: 'edit', name: 'edit', orderable: false, searchable: false},
             ]

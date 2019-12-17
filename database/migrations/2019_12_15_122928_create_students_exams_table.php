@@ -13,7 +13,7 @@ class CreateStudentsExamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('students__exams', function (Blueprint $table) {
+        Schema::create('students_exams', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateStudentsExamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students__exams');
+        Schema::dropIfExists('students_exams');
     }
 }

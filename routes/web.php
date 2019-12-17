@@ -31,5 +31,7 @@ Route::resource('school', 'SchoolController');
 Route::resource('term', 'TermController');
 Route::resource('grade', 'GradeController');
 Route::resource('classroom', 'ClassroomController');
+Route::get('/grade/{grade_id}/classrooms','GradeController@getClassrooms')->name('getClassrooms');
 
 Route::get('/test','TestController@index');
+

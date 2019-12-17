@@ -13,9 +13,6 @@ class Classroom extends Model
     {
         return $this->belongsTo(Grade::class);
     }
-    public function my_all($school_id)
-    {
 
-    }
 
 }
