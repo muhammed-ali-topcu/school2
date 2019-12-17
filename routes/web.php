@@ -25,3 +25,11 @@ Route::get('/studnt/get-students','StudentController@getStudents')->name('studen
 Route::get('index',function(){
     return view ('index');
 });
+
+Route::resource('term', 'TermController');
+Route::resource('school', 'SchoolController');
+Route::resource('term', 'TermController');
+Route::resource('grade', 'GradeController');
+Route::resource('classroom', 'ClassroomController');
+
+Route::get('/test','TestController@index');

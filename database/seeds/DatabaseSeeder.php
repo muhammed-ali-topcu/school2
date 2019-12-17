@@ -1,6 +1,9 @@
 <?php
 
+use App\GnlComboBox;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(GnlComboBoxTableSeeder::class);
+        $this->call(SchoolsTableSeeder::class);
+
     }
 }
